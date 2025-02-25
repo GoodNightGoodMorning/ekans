@@ -6,13 +6,16 @@
          read-file)
 
 (define (lexer input)
-  (if (null? input)
-      (cons (cons 'eof '()) '())
-      (let ([peek (car input)])
-        (cond
-          [(equal? peek lp) (cons (cons 'lparen '()) (cdr input))]
-          [(equal? peek rp) (cons (cons 'rparen '()) (cdr input))]
-          [else (cons (cons 'unknown peek) (cdr input))]))))
+  (let ([input-list (if (string? input)
+                        (string->list input)
+                        input)])
+    (if (null? input-list)
+        (cons (cons 'eof '()) '())
+        (let ([peek (car input-list)])
+          (cond
+            [(equal? peek lp) (cons (cons 'lparen '()) (cdr input-list))]
+            [(equal? peek rp) (cons (cons 'rparen '()) (cdr input-list))]
+            [else (cons (cons 'unknown peek) (cdr input-list))])))))
 
 (define (read-file filename)
   (call-with-input-file filename
