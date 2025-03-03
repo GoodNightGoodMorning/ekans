@@ -5,6 +5,8 @@
 
 (define lp #\()
 (define rp #\))
+(define empty-string "")
 
 (provide lp
-         rp)
+         rp
+         empty-string)

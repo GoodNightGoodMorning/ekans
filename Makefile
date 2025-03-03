@@ -10,14 +10,18 @@ build: fmt
 	raco exe -o compiler.out app/main.rkt 
 
 execute:
-	for program in $$(find ./test/data/ -type f -iname "*.rkt"); do \
-		./compiler.out $$program;                                     \
-	done
+	# for program in $$(find ./test/data/ -type f -iname "*.rkt"); do \
+	#	./compiler.out $$program;                                     \
+	# done
+	./compiler.out test/data/int/testcase_001.rkt
 
 clean:
 	rm -f *.out
 
-test: fmt
+test-compiler: fmt
 	raco test test/main.rkt	
+
+test-codegen: fmt
+	raco test test/test-codegen.rkt
 
 .PHONY: fmt build execute clean test
