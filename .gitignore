@@ -16,3 +16,6 @@ compiled/
 
 # Executable
 *.out
+
+# Compiled
+build/

@@ -7,6 +7,7 @@
 
 (provide generate-code)
 (provide generate-main-function)
+(provide generate-file)
 
 (define (generate-number-statement number-statement)
   (let ([number-value (cdr number-statement)]) (format "int num = ~a;" number-value)))
@@ -31,3 +32,6 @@
 
 (define (generate-main-function parsed-program)
   (let ([code (generate-code parsed-program)]) (string-append prologue "  " code "\n" epilogue)))
+
+(define (generate-file filename generated-code)
+  (with-output-to-file filename (lambda () (write-string generated-code)) #:exists 'replace))
