@@ -7,7 +7,8 @@ fmt:
 	find . -type f -iname "*.rkt" | xargs raco fmt -i --indent 2 # raco pkg install fmt
 
 build: fmt
-	raco exe -o compiler.out app/main.rkt 
+	raco make app/main.rkt                # https://docs.racket-lang.org/raco/make.html
+	raco exe -o compiler.out app/main.rkt # https://docs.racket-lang.org/raco/exe.html
 
 execute:
 	# for program in $$(find ./test/data/ -type f -iname "*.rkt"); do \

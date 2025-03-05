@@ -26,7 +26,9 @@
   (define parsed-program (parse-statements input))
   (if (eq? parsed-program 'error)
       (displayln "Error: Unable to parse the input.")
-      (let ([generated-code (generate-code parsed-program)]) (displayln generated-code))))
+      (let ([generated-code (generate-code parsed-program)])
+        (displayln generated-code)
+        (displayln (generate-main-function parsed-program)))))
 
 (define (main)
   (define args (vector->list (current-command-line-arguments)))
