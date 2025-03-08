@@ -16,7 +16,7 @@
 ;
 ; prog = statements
 ; statements = epsilon | statement statements
-; statement = number | bool
+; statement = number
 ;
 
 ;
@@ -64,5 +64,4 @@
          [first-token-type (car first-token)])
     (cond
       [(eq? first-token-type 'number) (cons (cons 'number-statement (cdr first-token)) first-rest)]
-      [(eq? first-token-type 'bool) (cons (cons 'bool-statement (cdr first-token)) first-rest)]
       [else 'error])))
