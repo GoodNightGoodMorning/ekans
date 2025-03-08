@@ -20,7 +20,7 @@ execute:
 clean:
 	rm -rf *.out *.c build/
 
-test-compiled-c-code: build
+test-compiled-c-code: build execute
 	set -e
 	clang -o build/app.out build/main.c
 	./build/app.out > ./build/testcase_001.actual
