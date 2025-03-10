@@ -75,6 +75,15 @@
         (cons (string->list "#f") (cons 'bool #f))
         (cons (string->list "if") (cons 'if '()))))
 
+(define (list-start? input)
+  (and (not (null? input))
+       (equal? (car input) #\')
+       (not (null? (cdr input)))
+       (equal? (car (cdr input)) lp)))
+
+(define (list-end? input)
+  (and (not (null? input)) (equal? (car input) rp)))
+
 ;
 ; lexer
 ;
@@ -102,6 +111,9 @@
                        (cons (cons 'number (digits-to-number (car number-result) 0))
                              (cdr number-result))
                        (cons (cons 'unknown '()) '())))]
+                ;; lexer list
+                [(and (list-start? input) (list-end? (cdr (cdr input))))
+                 (cons (cons 'empty-list '()) (cdr (cdr (cdr input))))]
                 [else (cons (cons 'unknown '()) '())]))))))
 
 (define (read-file filename)
