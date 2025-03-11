@@ -75,15 +75,6 @@
         (cons (string->list "#f") (cons 'bool #f))
         (cons (string->list "if") (cons 'if '()))))
 
-(define (list-start? input)
-  (and (not (null? input))
-       (equal? (car input) #\')
-       (not (null? (cdr input)))
-       (equal? (car (cdr input)) lp)))
-
-(define (list-end? input)
-  (and (not (null? input)) (equal? (car input) rp)))
-
 ;
 ; lexer
 ;
