@@ -105,15 +105,13 @@
                 [(equal? peek #\newline) (lexer (cdr input))]
                 [(equal? peek lp) (cons (cons 'lparen '()) (cdr input))]
                 [(equal? peek rp) (cons (cons 'rparen '()) (cdr input))]
+                [(list-start? input) (cons (cons 'list-start '()) (cdr (cdr input)))]
                 [(digit? peek)
                  (let ([number-result (take-while input digit?)])
                    (if (digits-follows? (cdr number-result))
                        (cons (cons 'number (digits-to-number (car number-result) 0))
                              (cdr number-result))
                        (cons (cons 'unknown '()) '())))]
-                ;; lexer list
-                [(and (list-start? input) (list-end? (cdr (cdr input))))
-                 (cons (cons 'empty-list '()) (cdr (cdr (cdr input))))]
                 [else (cons (cons 'unknown '()) '())]))))))
 
 (define (read-file filename)
