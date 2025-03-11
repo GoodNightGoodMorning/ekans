@@ -10,14 +10,15 @@
 (provide generate-file)
 
 (define prologue "#include <ekans.h>\n\nint main(void) {\n  initialize_ekan();\n")
-(define epilogue "  return 0;\n}\n")
+(define epilogue "  finalize_ekan();\n  return 0;\n}\n")
 
 (define (generate-number-statement number-statement)
-  (let ([number-value (cdr number-statement)]) (format "  printf(\"%d\\n\",~a);\n" number-value)))
+  (let ([number-value (cdr number-statement)])
+    (format "  print_ekans_value(create_number_value(~a));\n" number-value)))
 
 (define (generate-bool-statement bool-statement)
   (let ([bool-value (cdr bool-statement)])
-    (if bool-value "  printf(\"#t\\n\");\n" "  printf(\"#f\\n\");\n")))
+    (format "  print_ekans_value(create_boolean_value(~a));\n" (if bool-value "true" "false"))))
 
 (define (generate-statement statement)
   (displayln (format "[log] generate-statement: statement = ~a" statement))
