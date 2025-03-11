@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-ekan_value head;
-ekan_value tail;
+ekans_value head;
+ekans_value tail;
 
 void initialize_ekan() {
   head.prev = NULL;
@@ -14,23 +14,23 @@ void initialize_ekan() {
   tail.next = NULL;
 }
 
-ekan_value *create_number_value(int v) {
-  ekan_value *result = malloc(sizeof(ekan_value));
+ekans_value *create_number_value(int v) {
+  ekans_value *result = malloc(sizeof(ekans_value));
   append(result);
   result->type = number;
   result->value.n = v;
   return result;
 }
 
-ekan_value *create_boolean_value(bool v) {
-  ekan_value *result = malloc(sizeof(ekan_value));
+ekans_value *create_boolean_value(bool v) {
+  ekans_value *result = malloc(sizeof(ekans_value));
   append(result);
   result->type = boolean;
   result->value.b = v;
   return result;
 }
 
-void print_ekans_value(ekan_value *v) {
+void print_ekans_value(ekans_value *v) {
   switch (v->type) {
   case number:
     printf("%d\n", v->value.n);
@@ -53,14 +53,14 @@ void print_ekans_value(ekan_value *v) {
 }
 
 void finalize_ekan() {
-  ekan_value *cur = head.next;
+  ekans_value *cur = head.next;
   while (cur != &tail) {
     cur = cur->next;
     free(cur->prev);
   }
 }
 
-void append(ekan_value *new_value) {
+void append(ekans_value *new_value) {
   new_value->prev = tail.prev;
   new_value->next = &tail;
   new_value->prev->next = new_value;

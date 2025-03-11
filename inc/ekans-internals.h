@@ -2,4 +2,4 @@
 
 #include <ekans.h>
 
-void append(ekan_value *new_value);
+void append(ekans_value *new_value);
