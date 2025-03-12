@@ -12,6 +12,6 @@ ekans_value *create_boolean_value(bool v);
 
 void print_ekans_value(ekans_value *v);
 
-void initialize_ekan();
+void initialize_ekans();
 
-void finalize_ekan();
+void finalize_ekans();

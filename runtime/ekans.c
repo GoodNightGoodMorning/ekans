@@ -7,7 +7,7 @@
 ekans_value head;
 ekans_value tail;
 
-void initialize_ekan() {
+void initialize_ekans() {
   head.prev = NULL;
   head.next = &tail;
   tail.prev = &head;
@@ -52,7 +52,7 @@ void print_ekans_value(ekans_value *v) {
   }
 }
 
-void finalize_ekan() {
+void finalize_ekans() {
   ekans_value *cur = head.next;
   while (cur != &tail) {
     cur = cur->next;

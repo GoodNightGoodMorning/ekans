@@ -2,10 +2,10 @@
 
 #include <ekans.h>
 
-typedef enum { number, boolean } ekan_type;
+typedef enum { number, boolean } ekans_type;
 
 typedef struct ekans_value {
-  ekan_type type;
+  ekans_type type;
   union {
     int n;
     bool b;

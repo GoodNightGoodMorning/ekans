@@ -9,8 +9,8 @@
 (provide generate-main-function)
 (provide generate-file)
 
-(define prologue "#include <ekans.h>\n\nint main(void) {\n  initialize_ekan();\n")
-(define epilogue "  finalize_ekan();\n  return 0;\n}\n")
+(define prologue "#include <ekans.h>\n\nint main(void) {\n  initialize_ekans();\n")
+(define epilogue "  finalize_ekans();\n  return 0;\n}\n")
 
 (define (generate-number-statement number-statement)
   (let ([number-value (cdr number-statement)])
