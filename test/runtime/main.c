@@ -12,7 +12,7 @@ void test_initialize_ekans() {
 
 void test_create_number_value() {
   initialize_ekans();
-  const ekans_value* const v = create_number_value(20250312);
+  ekans_value* const v = create_number_value(20250312);
   assert(v->type == number);
   assert(v->value.n == 20250312);
   assert(head.next == v);
@@ -23,7 +23,7 @@ void test_create_number_value() {
 
 void test_create_boolean_value() {
   initialize_ekans();
-  const ekans_value* const v = create_boolean_value(true);
+  ekans_value* const v = create_boolean_value(true);
   assert(v->type == boolean);
   assert(v->value.b == true);
   assert(head.next == v);
