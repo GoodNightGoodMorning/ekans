@@ -5,7 +5,7 @@
 
 #include <ekans.h>
 
-const int mark_bit = 65536;
+static const int mark_bit = 65536;
 
 typedef enum {
   number,
@@ -27,7 +27,7 @@ typedef struct stack_slot {
   struct stack_slot* next;
 } stack_slot;
 
-stack_slot* g_stack_slots = NULL;
+static stack_slot* g_stack_slots = NULL;
 
 void append(ekans_value* new_value);
 
