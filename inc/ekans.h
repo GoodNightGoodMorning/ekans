@@ -17,7 +17,7 @@ typedef enum {
 
 typedef struct ekans_value ekans_value;
 
-typedef int (*ekans_function)(ekans_value*, ekans_value**);
+typedef ekans_value* (*ekans_function)(ekans_value*);
 
 // value creation routines
 

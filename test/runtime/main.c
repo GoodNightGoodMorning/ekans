@@ -70,14 +70,10 @@ void test_addition(void) {
   plus_function = get_environment(global_environment, 0, 0);
   assert(plus_function);
 
-  int status = function_of(plus_closure)(local_environment, &result);
+  result = function_of(plus_closure)(local_environment);
   collect(); // we should be able to put the collect call between every line, and it should still be correct
-  if (status == 0) {
-    assert(is(result, number));
-    assert(result->value.n == 3);
-  } else {
-    printf("Error: Failed to execute function\n");
-  }
+  assert(result->value.n == 3);
+
   pop_stack_slot(5);
   finalize_ekans();
   printf("[%s] passed\n", __FUNCTION__);

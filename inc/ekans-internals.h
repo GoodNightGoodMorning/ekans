@@ -41,7 +41,7 @@ struct ekans_value {
 extern ekans_value head;
 extern ekans_value tail;
 
-int plus(ekans_value* environment, ekans_value** result);
+ekans_value* plus(ekans_value* environment);
 
 typedef struct stack_slot {
   ekans_value**      slot;
@@ -65,3 +65,9 @@ void sweep();
 void reset_this(ekans_value* obj);
 
 bool is(ekans_value* obj, ekans_type type);
+
+void* brutal_malloc(size_t size);
+
+void* brutal_calloc(size_t count, size_t size);
+
+void brutal_free(void* ptr);
