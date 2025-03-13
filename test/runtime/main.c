@@ -1,8 +1,8 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <ekans-internals.h>
 #include <ekans.h>
-#include <environment.h>
 
 void test_initialize_ekans() {
   initialize_ekans();
