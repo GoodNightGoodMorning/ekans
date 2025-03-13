@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <ekans-internals.h>
 #include <ekans.h>
+#include <environment.h>
 
 void test_initialize_ekans() {
   initialize_ekans();
@@ -41,11 +42,18 @@ void test_create_boolean_value() {
   printf("[%s] passed\n", __FUNCTION__);
 }
 
+void test_environment(void) {
+  ekans_environment* const global_environment = create_environment(NULL, 1);
+  free(global_environment->bindings);
+  free(global_environment);
+}
+
 int main() {
   printf("=====================\n");
   test_initialize_ekans();
   test_create_number_value();
   test_create_boolean_value();
+  test_environment();
   printf("=====================\n");
   printf("All tests passed!\n");
   return 0;

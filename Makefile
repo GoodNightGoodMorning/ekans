@@ -40,9 +40,10 @@ test-compiled-c-code: build
 
 test-runtime: clean fmt
 	mkdir -p build
-	clang -g -I ./inc -c -o build/ekans.o runtime/ekans.c
-	clang -g -I ./inc -o build/test-runtime.out test/runtime/main.c build/ekans.o 
-	./build/test-runtime.out
+	clang -fsanitize=address -g -I ./inc -c -o build/ekans.o runtime/ekans.c
+	clang -fsanitize=address -g -I ./inc -c -o build/environment.o runtime/environment.c
+	clang -fsanitize=address -g -I ./inc -o build/test-runtime.out test/runtime/main.c build/ekans.o build/environment.o
+	ASAN_OPTIONS=detect_leaks=1 ./build/test-runtime.out
 
 unit-tests: fmt
 	raco test test/main.rkt
