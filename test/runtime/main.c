@@ -45,9 +45,18 @@ void test_create_boolean_value() {
 void test_environment(void) {
   ekans_environment* const global_environment = create_environment(NULL, 1);
   if (global_environment == NULL) {
-    printf("Error: Failed to create environment\n");
+    printf("Error: Failed to create global environment\n");
     return;
   }
+
+  ekans_closure* plus_closure = (ekans_closure*)malloc(sizeof(ekans_closure));
+  if (plus_closure == NULL) {
+    printf("Error: Failed to create ekans closure\n");
+    return;
+  }
+  plus_closure->closure           = global_environment;
+  plus_closure->function          = plus;
+  global_environment->bindings[0] = (ekans_value*)plus_closure;
 
   for (int i = 0; i < global_environment->binding_count; i++) {
     if (global_environment->bindings[i] != NULL) {

@@ -12,4 +12,13 @@ typedef struct ekans_environment {
   struct ekans_environment* parent;
 } ekans_environment;
 
+typedef int (*ekans_function)(ekans_environment*, ekans_value**);
+
+typedef struct ekans_closure {
+  ekans_environment* closure;
+  ekans_function     function;
+} ekans_closure;
+
 ekans_environment* create_environment(ekans_environment* const parent, const int size);
+
+int plus(ekans_environment* const environment, ekans_value** const result);
