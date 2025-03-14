@@ -73,10 +73,10 @@ void test_create_cons_value() {
     assert(a->next == b);
     assert(b->next == c);
     assert(c->next == &tail);
-    assert(tail.prev = c);
-    assert(c->prev = b);
-    assert(b->prev = a);
-    assert(a->prev = &head);
+    assert(tail.prev == c);
+    assert(c->prev == b);
+    assert(b->prev == a);
+    assert(a->prev == &head);
   }
   finalize_ekans();
   printf("[%s] passed\n", __FUNCTION__);
