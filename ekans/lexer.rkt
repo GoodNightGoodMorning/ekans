@@ -79,10 +79,10 @@
   (list (cons (string->list "#t") (cons 'bool #t))
         (cons (string->list "#f") (cons 'bool #f))
         (cons (string->list "if") (cons 'if '()))
-        (cons (string->list "+") (cons 'operator '+))
-        (cons (string->list "-") (cons 'operator '-))
-        (cons (string->list "*") (cons 'operator '*))
-        (cons (string->list "/") (cons 'operator '/))))
+        (cons (string->list "+") (cons 'symbol "+"))
+        (cons (string->list "-") (cons 'symbol "-"))
+        (cons (string->list "*") (cons 'symbol "*"))
+        (cons (string->list "/") (cons 'symbol "/"))))
 
 ;
 ; lexer
