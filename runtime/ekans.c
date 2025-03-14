@@ -224,23 +224,51 @@ bool is(ekans_value* obj, ekans_type type) {
 }
 
 void print_ekans_value(ekans_value* v) {
+  print_ekans_value_helper(v);
+  printf("\n");
+}
+
+void print_ekans_value_helper(ekans_value* v) {
   switch (v->type) {
     case number: {
-      printf("%d\n", v->value.n);
+      printf("%d", v->value.n);
     } break;
     case boolean: {
       switch (v->value.b) {
         case true: {
-          printf("#t\n");
+          printf("#t");
         } break;
         case false: {
-          printf("#f\n");
+          printf("#f");
         } break;
         default: {
           assert(!"print_ekans_value: unknown boolean value");
         } break;
       }
     } break;
+    case cons: {
+      printf("(");
+      while (true) {
+        print_ekans_value_helper(v->value.l.head);
+        v = v->value.l.tail;
+        if (v->type == nil) {
+          printf(")");
+          break;
+        } else if (v->type == cons) {
+          printf(" ");
+        } else {
+          printf(" . ");
+          print_ekans_value_helper(v);
+          printf(")");
+          break;
+        }
+      }
+      break;
+    }
+    case nil: {
+      printf("'()");
+      break;
+    }
     default: {
       assert(!"print_ekans_value: unsupported");
     } break;

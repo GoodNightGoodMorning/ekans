@@ -66,6 +66,7 @@ void test_create_cons_value() {
     ekans_value*       c = create_cons_cell(a, b);
     push_stack_slot(&c);
     collect();
+    print_ekans_value(c);
     pop_stack_slot(1);
     assert(is(a, number));
     assert(is(b, nil));

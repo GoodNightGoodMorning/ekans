@@ -58,6 +58,8 @@ typedef struct stack_slot {
 
 extern stack_slot* g_stack_slots;
 
+void print_ekans_value_helper(ekans_value* v);
+
 void append(ekans_value* new_value);
 
 void mark();
