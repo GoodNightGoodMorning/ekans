@@ -10,16 +10,13 @@
 (provide generate-file)
 
 (define (temp-id context)
-  (car context)
-)
+  (car context))
 
 (define (num-temps context)
-  (- (temp-id context) 1)
-)
+  (- (temp-id context) 1))
 
 (define (increment-temp-id context)
-  (cons (+ (car context) 1) (cdr context))
-)
+  (cons (+ (car context) 1) (cdr context)))
 
 (define prologue "#include <ekans.h>\n\nint main(void) {\n  initialize_ekans();\n  collect();\n")
 (define epilogue "  finalize_ekans();\n  return 0;\n}\n")
@@ -65,10 +62,9 @@
 (define (generate-temp-declarations num-temps)
   (if (= num-temps 0)
       ""
-      (string-append (generate-temp-declarations (- num-temps 1))
-                     (format "  ekans_value* v~a = NULL;\n  push_stack_slot(&v~a);\n"
-                             num-temps
-                             num-temps))))
+      (string-append
+       (generate-temp-declarations (- num-temps 1))
+       (format "  ekans_value* v~a = NULL;\n  push_stack_slot(&v~a);\n" num-temps num-temps))))
 
 (define (generate-code parsed-program)
   (let* ([statements (car parsed-program)]

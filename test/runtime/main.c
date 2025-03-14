@@ -63,7 +63,10 @@ void test_create_cons_value() {
   {
     ekans_value* const a = create_number_value(1);
     ekans_value* const b = create_nil_value();
-    ekans_value* const c = create_cons_cell(a, b);
+    ekans_value*       c = create_cons_cell(a, b);
+    push_stack_slot(&c);
+    collect();
+    pop_stack_slot(1);
     assert(is(a, number));
     assert(is(b, nil));
     assert(is(c, cons));

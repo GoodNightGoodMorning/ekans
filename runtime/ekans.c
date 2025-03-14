@@ -166,6 +166,9 @@ void mark_recursively(ekans_value* obj) {
       for (int i = 0; i < obj->value.e.binding_count; i++) {
         mark_recursively(obj->value.e.bindings[i]);
       }
+    } else if (is(obj, cons)) {
+      mark_recursively(obj->value.l.head);
+      mark_recursively(obj->value.l.tail);
     }
   }
 }
