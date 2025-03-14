@@ -77,6 +77,22 @@ ekans_value* create_closure(ekans_value* env, ekans_function function) {
   return result;
 }
 
+ekans_value* create_nil_value() {
+  ekans_value* result = brutal_malloc(sizeof(ekans_value));
+  result->type        = nil;
+  append(result);
+  return result;
+}
+
+ekans_value* create_cons_cell(ekans_value* head, ekans_value* tail) {
+  ekans_value* result  = brutal_malloc(sizeof(ekans_value));
+  result->type         = cons;
+  result->value.l.head = head;
+  result->value.l.tail = tail;
+  append(result);
+  return result;
+}
+
 // Garbage collection routines
 
 void push_stack_slot(ekans_value** slot) {
