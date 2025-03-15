@@ -6,6 +6,7 @@
 #include <ekans.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 //
 // error handling principle:
@@ -305,8 +306,14 @@ ekans_value* multiply(ekans_value* environment) {
   int product = 1;
   for (int i = 0; i < environment->value.e.binding_count; i++) {
     assert(environment->value.e.bindings[i] != NULL);
+
     if (environment->value.e.bindings[i]->type != number) {
       fprintf(stderr, "not a number encountered in *\n");
+      exit(1);
+    }
+
+    if (product > INT_MAX / environment->value.e.bindings[i]->value.n) {
+      fprintf(stderr, "failed to integer overflow in the function %s\n", __PRETTY_FUNCTION__);
       exit(1);
     }
     product *= environment->value.e.bindings[i]->value.n;
