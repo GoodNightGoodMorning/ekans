@@ -312,11 +312,14 @@ ekans_value* multiply(ekans_value* environment) {
       exit(1);
     }
 
-    if (product > INT_MAX / environment->value.e.bindings[i]->value.n) {
-      fprintf(stderr, "failed to integer overflow in the function %s\n", __PRETTY_FUNCTION__);
-      exit(1);
+    const int t = environment->value.e.bindings[i]->value.n;
+    if (t != 0) {
+      if (product > INT_MAX / t || product < INT_MIN / t) {
+        fprintf(stderr, "failed to integer overflow in the function: [%s]\n", __PRETTY_FUNCTION__);
+        exit(1);
+      }
     }
-    product *= environment->value.e.bindings[i]->value.n;
+    product *= t;
   }
   return create_number_value(product);
 }
