@@ -12,7 +12,7 @@
 (define (fetch-variable-id context)
   (car context))
 
-(define (decrement-variable-id context)
+(define (decrement-number-of-variables context)
   (- (fetch-variable-id context) 1))
 
 (define (increment-variable-id context)
@@ -66,22 +66,23 @@
                              rest-statement)
               context))))
 
-(define (generate-temp-declarations variable-id)
-  (if (= variable-id 0)
+(define (generate-temp-declarations number-of-variables)
+  (if (= number-of-variables 0)
       ""
-      (string-append
-       (generate-temp-declarations (- variable-id 1))
-       (format "  ekans_value* v~a = NULL;\n  push_stack_slot(&v~a);\n" variable-id variable-id))))
+      (string-append (generate-temp-declarations (- number-of-variables 1))
+                     (format "  ekans_value* v~a = NULL;\n  push_stack_slot(&v~a);\n"
+                             number-of-variables
+                             number-of-variables))))
 
 (define (generate-code parsed-program)
   (let* ([statements (car parsed-program)]
          [statements-pair (generate-statements statements '(1))]
          [statements-code (car statements-pair)]
          [context (cdr statements-pair)]
-         [variable-id (decrement-variable-id context)])
-    (string-append (generate-temp-declarations variable-id)
+         [number-of-variables (decrement-number-of-variables context)])
+    (string-append (generate-temp-declarations number-of-variables)
                    statements-code
-                   (format "  pop_stack_slot(~a);\n" variable-id))))
+                   (format "  pop_stack_slot(~a);\n" number-of-variables))))
 
 (define (generate-main-function parsed-program)
   (let ([code (generate-code parsed-program)]) (string-append prologue code epilogue)))
