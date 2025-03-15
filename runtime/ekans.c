@@ -290,7 +290,6 @@ ekans_value* plus(ekans_value* environment) {
 
 ekans_value* subtract(ekans_value* environment) {
   int diff = environment->value.e.bindings[0]->value.n;
-  ;
   for (int i = 1; i < environment->value.e.binding_count; i++) {
     assert(environment->value.e.bindings[i] != NULL);
     if (environment->value.e.bindings[i]->type != number) {
