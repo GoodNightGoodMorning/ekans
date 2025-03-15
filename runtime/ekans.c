@@ -293,7 +293,7 @@ ekans_value* subtract(ekans_value* environment) {
   for (int i = 1; i < environment->value.e.binding_count; i++) {
     assert(environment->value.e.bindings[i] != NULL);
     if (environment->value.e.bindings[i]->type != number) {
-      fprintf(stderr, "not a number encountered in +\n");
+      fprintf(stderr, "not a number encountered in -\n");
       exit(1);
     }
     diff -= environment->value.e.bindings[i]->value.n;
