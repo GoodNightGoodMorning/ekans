@@ -158,7 +158,7 @@
   '(("+" "plus") ; ekans_value* plus(ekans_value* environment);
     ("-" "subtract") ; ekans_value* subtract(ekans_value* environment);
     ("*" "multiply") ; ekans_value* multiply(ekans_value* environment);
-    ("/" "division") ; ekans_value* division(division* environment)
+    ("/" "division") ; ekans_value* division(ekans_value* environment)
     ))
 
 (define (populate-environment elements index temp-id)
