@@ -330,7 +330,7 @@ ekans_value* division(ekans_value* environment) {
     assert(environment->value.e.bindings[i] != NULL);
 
     if (environment->value.e.bindings[i]->type != number) {
-      fprintf(stderr, "not a number encountered in *\n");
+      fprintf(stderr, "not a number encountered in /\n");
       exit(1);
     }
 
