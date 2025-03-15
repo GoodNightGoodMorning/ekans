@@ -301,6 +301,19 @@ ekans_value* subtract(ekans_value* environment) {
   return create_number_value(diff);
 }
 
+ekans_value* multiply(ekans_value* environment) {
+  int product = 1;
+  for (int i = 0; i < environment->value.e.binding_count; i++) {
+    assert(environment->value.e.bindings[i] != NULL);
+    if (environment->value.e.bindings[i]->type != number) {
+      fprintf(stderr, "not a number encountered in *\n");
+      exit(1);
+    }
+    product *= environment->value.e.bindings[i]->value.n;
+  }
+  return create_number_value(product);
+}
+
 // Allocation helpers - just quit the process whenever an error happens
 
 void* brutal_malloc(size_t size) {
