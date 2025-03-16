@@ -34,7 +34,7 @@ $(CC0): $(DIR_APP)/main.rkt $(DIR_BUILD)/ekans.o
 	raco exe -o $@ $< # https://docs.racket-lang.org/raco/exe.html
 
 $(DIR_BUILD)/ekans.o: $(DIR_RUNTIME)/ekans.c
-	mkdir -p build
+	mkdir -p $(DIR_BUILD)
 	$(CC) $(INCLUDES) $(CFLAGS) -c -o $@ $?
 
 test-phase-0: $(DIR_BUILD)/main.c
