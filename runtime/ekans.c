@@ -351,7 +351,13 @@ void division(ekans_value* environment, ekans_value** pReturn) {
 }
 
 void list_cons(ekans_value* environment, ekans_value** pReturn) {
-  assert(environment->value.e.binding_count == 2);
+void list_cons(ekans_value* environment, ekans_value** pReturn) {
+  if (environment->value.e.binding_count != 2) {
+    fprintf(stderr, "Error: cons requires exactly two arguments\n");
+    exit(1);
+  }
+  create_cons_cell(environment->value.e.bindings[0], environment->value.e.bindings[1], pReturn);
+}
   create_cons_cell(environment->value.e.bindings[0], environment->value.e.bindings[1], pReturn);
 }
 
