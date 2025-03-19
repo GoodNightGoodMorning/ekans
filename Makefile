@@ -82,8 +82,8 @@ test-execution: ./build/compiler.out build/ekans.o
 		fi;                                                                               \
 	done
 
-build/debug.c: build/compiler.out test/data/debug.rkt
-	./build/compiler.out ./test/data/debug.rkt ./build/debug.c
+build/debug.c: build/compiler.out test/data/cons.rkt
+	./build/compiler.out ./test/data/cons.rkt ./build/debug.c
 
 build/debug.out: build/debug.c build/ekans.o
 	$(CC) $(INCLUDES) $(CFLAGS) -o ./build/debug.out ./build/debug.c ./build/ekans.o;

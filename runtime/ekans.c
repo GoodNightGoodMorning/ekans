@@ -350,6 +350,11 @@ void division(ekans_value* environment, ekans_value** pReturn) {
   create_number_value(quotient, pReturn);
 }
 
+void list_cons(ekans_value* environment, ekans_value** pReturn) {
+  assert(environment->value.e.binding_count == 2);
+  create_cons_cell(environment->value.e.bindings[0], environment->value.e.bindings[1], pReturn);
+}
+
 // Allocation helpers - just quit the process whenever an error happens
 
 void* brutal_malloc(size_t size) {
