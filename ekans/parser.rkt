@@ -58,7 +58,6 @@
 ;          as a statement, 'error will be returned
 ;
 (define (parse-statement input)
-
   (let* ([first-lex (lexer input)]
          [first-token (car first-lex)]
          [first-rest (cdr first-lex)]

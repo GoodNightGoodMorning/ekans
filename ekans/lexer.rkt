@@ -109,6 +109,7 @@
                        (cons (cons 'number (digits-to-number (car number-result) 0))
                              (cdr number-result))
                        (cons (cons 'unknown '()) '())))]
+                [(char? peek) (cons (cons 'char peek) (cdr input))]
                 [else
                  (let* ([symbol-result (take-while input (lambda (c) (not (token-end? (list c)))))]
                         [symbol (car symbol-result)]
