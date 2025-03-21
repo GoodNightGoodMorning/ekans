@@ -94,6 +94,14 @@ void create_cons_cell(ekans_value* head, ekans_value* tail, ekans_value** pRetur
   append(result);
 }
 
+void create_string_value(char* str, ekans_value** pReturn) {
+  ekans_value* result = brutal_malloc(sizeof(ekans_value));
+  result->type        = string;
+  result->value.s     = str;
+  *pReturn            = result;
+  append(result);
+}
+
 // Garbage collection routines
 
 void push_stack_slot(ekans_value** slot) {
@@ -276,6 +284,9 @@ void print_ekans_value_helper(ekans_value* v) {
       printf("'()");
       break;
     }
+    case string: {
+      printf("\"%s\"", v->value.s);
+    } break;
     default: {
       assert(!"print_ekans_value: unsupported");
     } break;
@@ -356,6 +367,27 @@ void list_cons(ekans_value* environment, ekans_value** pReturn) {
     exit(1);
   }
   create_cons_cell(environment->value.e.bindings[0], environment->value.e.bindings[1], pReturn);
+}
+
+void ekans_string(ekans_value* environment, ekans_value** pReturn) {
+  if (environment->value.e.binding_count != 1) {
+    fprintf(stderr, "Error: string requires exactly one argument\n");
+    exit(1);
+  }
+
+  ekans_value* v = environment->value.e.bindings[0];
+  if (v->type != number) {
+    fprintf(stderr, "Error: string requires a number\n");
+    exit(1);
+  }
+
+  char* str = brutal_malloc(v->value.n + 1);
+  for (int i = 0; i < v->value.n; i++) {
+    str[i] = 'a' + i % 26;
+  }
+  str[v->value.n] = '\0';
+
+  create_string_value(str, pReturn);
 }
 
 // Allocation helpers - just quit the process whenever an error happens

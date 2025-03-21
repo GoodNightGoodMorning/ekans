@@ -35,6 +35,8 @@ void create_cons_cell(ekans_value* head, ekans_value* tail, ekans_value** pRetur
 
 void create_nil(ekans_value** pReturn);
 
+void create_string(char* str, ekans_value** pReturn);
+
 // accessors
 
 void get_environment(ekans_value* env, int levels_up, int index, ekans_value** pReturn);
@@ -56,6 +58,8 @@ void multiply(ekans_value* environment, ekans_value** pReturn);
 void division(ekans_value* environment, ekans_value** pReturn);
 
 void list_cons(ekans_value* environment, ekans_value** pReturn);
+
+void ekans_string(ekans_value* environment, ekans_value** pReturn);
 
 void print_ekans_value(ekans_value* v);
 

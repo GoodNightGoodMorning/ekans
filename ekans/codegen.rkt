@@ -125,6 +125,14 @@
       ; the way it should be
       [else (generate-application list-statement-list context)])))
 
+(define (generate-string-statement string-statement context)
+  (let* ([string-value (cdr string-statement)]
+         [variable-id (new-variable-id context)]
+         [context (increment-variable-id context)])
+    (list (format "  create_string_value(~a, &v~a);\n" string-value variable-id)
+          variable-id
+          context)))
+
 ;
 ; A function application is generated as follows:
 ; 1. Evaluate the expression that will be the function to call
@@ -273,6 +281,7 @@
     (cond
       [(eq? statement-type 'number-statement) (generate-number-statement statement context)]
       [(eq? statement-type 'bool-statement) (generate-bool-statement statement context)]
+      [(eq? statement-type 'string-statement) (generate-string-statement statement context)]
       [(eq? statement-type 'symbol-statement) (generate-symbol-statement statement context)]
       [(eq? statement-type 'list-statement) (generate-list-statement statement context)]
       [(eq? statement-type 'quote-statement) (generate-quote-statement statement context)]
