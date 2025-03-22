@@ -97,20 +97,31 @@
             lexer-keywords-result
             (let ([peek (car input)])
               (cond
+                ; Comments
                 [(equal? peek #\;) (lexer (skip-comment (cdr input)))]
+                ; Whitespace
                 [(equal? peek #\space) (lexer (cdr input))]
                 [(equal? peek #\newline) (lexer (cdr input))]
+                ; Delimiters
                 [(equal? peek lp) (cons (cons 'lparen '()) (cdr input))]
                 [(equal? peek rp) (cons (cons 'rparen '()) (cdr input))]
                 [(equal? peek ls) (cons (cons 'lparen '()) (cdr input))]
                 [(equal? peek rs) (cons (cons 'rparen '()) (cdr input))]
+                ; Quote
                 [(equal? peek #\') (cons (cons 'quote '()) (cdr input))]
+                ; Character
+                [(and (pair? (cdr input)) (equal? peek #\#) (equal? (cadr input) #\\))
+                 (if (pair? (cddr input))
+                     (cons (cons 'character (caddr input)) (cdddr input))
+                     (cons (cons 'unknown '()) '()))]
+                ; Number
                 [(digit? peek)
                  (let ([number-result (take-while input digit?)])
                    (if (token-end? (cdr number-result))
                        (cons (cons 'number (digits-to-number (car number-result) 0))
                              (cdr number-result))
                        (cons (cons 'unknown '()) '())))]
+                ; Symbol
                 [else
                  (let* ([symbol-result (take-while input (lambda (c) (not (token-end? (list c)))))]
                         [symbol (car symbol-result)]
