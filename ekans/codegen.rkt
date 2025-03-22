@@ -87,7 +87,7 @@
   (let ([char-value (cdr char-statement)]
         [variable-id (new-variable-id context)]
         [context (increment-variable-id context)])
-    (list (format "  create_char_value(~a, &v~a);\n" char-value variable-id) variable-id context)))
+    (list (format "  create_char_value('~a', &v~a);\n" char-value variable-id) variable-id context)))
 
 ;
 ; A symbol statement means at runtime, this statement will be evaluated to a variable value, and this
