@@ -69,8 +69,9 @@ void create_char_value(char v, ekans_value** pReturn) {
 void create_string_value(char* s, ekans_value** pReturn) {
   ekans_value* result = brutal_malloc(sizeof(ekans_value));
   result->type        = string;
-  result->value.s     = malloc(strlen(s) + 1);
-  strcpy(result->value.s, s);
+  result->value.s     = brutal_malloc(strlen(s) + 1);
+  strncpy(result->value.s, s, strlen(s) + 1); // safer string copy
+  result->value.s[strlen(s)] = '\0'; // Ensure null termination
   *pReturn = result;
   append(result);
 }
