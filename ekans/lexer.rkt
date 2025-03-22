@@ -5,8 +5,7 @@
 
 (require "../common/common.rkt")
 
-(provide lexer
-         read-file)
+(provide lexer)
 
 (define (digit? c)
   (and (char>=? c #\0) (char<=? c #\9)))
@@ -128,7 +127,3 @@
                         [symbol-value (list->string symbol)]
                         [tail (cdr symbol-result)])
                    (cons (cons 'symbol symbol-value) tail))]))))))
-
-(define (read-file filename)
-  (call-with-input-file filename
-                        (lambda (port) (let ([content (port->string port)]) (string->list content)))))
