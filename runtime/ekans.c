@@ -386,6 +386,14 @@ void list_cons(ekans_value* environment, ekans_value** pReturn) {
   create_cons_cell(environment->value.e.bindings[0], environment->value.e.bindings[1], pReturn);
 }
 
+bool is_true(ekans_value* v) {
+  if (v->type != boolean) {
+    fprintf(stderr, "not a boolean encountered in is_true\n");
+    exit(1);
+  }
+  return v->value.b;
+}
+
 // Allocation helpers - just quit the process whenever an error happens
 
 void* brutal_malloc(size_t size) {
