@@ -394,6 +394,17 @@ bool is_true(ekans_value* v) {
   return v->value.b;
 }
 
+void equals(ekans_value* environment, ekans_value** pReturn) {
+  if (environment->value.e.binding_count != 2) {
+    fprintf(stderr, "Error: cons requires exactly two arguments\n");
+    exit(1);
+  }
+  ekans_value* v1     = environment->value.e.bindings[0];
+  ekans_value* v2     = environment->value.e.bindings[1];
+  bool         result = is(v1, number) && is(v2, number) && (v1->value.n == v2->value.n);
+  create_boolean_value(result, pReturn);
+}
+
 // Allocation helpers - just quit the process whenever an error happens
 
 void* brutal_malloc(size_t size) {
