@@ -396,7 +396,7 @@ bool is_true(ekans_value* v) {
 
 void equals(ekans_value* environment, ekans_value** pReturn) {
   if (environment->value.e.binding_count != 2) {
-    fprintf(stderr, "Error: cons requires exactly two arguments\n");
+    fprintf(stderr, "Error: equals requires exactly two arguments\n");
     exit(1);
   }
   ekans_value* v1     = environment->value.e.bindings[0];
