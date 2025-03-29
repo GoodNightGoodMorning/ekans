@@ -437,7 +437,7 @@ void list_cons(ekans_value* environment, ekans_value** pReturn) {
 
 void is_null(ekans_value* environment, ekans_value** pReturn) {
   if (environment->value.e.binding_count != 1) {
-    fprintf(stderr, "Error: char_ge requires exactly two arguments\n");
+    fprintf(stderr, "Error: is_null requires exactly one arguments\n");
     exit(1);
   }
   create_boolean_value(environment->value.e.bindings[0]->type == nil, pReturn);
@@ -445,7 +445,7 @@ void is_null(ekans_value* environment, ekans_value** pReturn) {
 
 void car(ekans_value* environment, ekans_value** pReturn) {
   if (environment->value.e.binding_count != 1) {
-    fprintf(stderr, "Error: car requires exactly two arguments\n");
+    fprintf(stderr, "Error: car requires exactly one arguments\n");
     exit(1);
   }
   if (environment->value.e.bindings[0]->type != cons) {
@@ -457,11 +457,11 @@ void car(ekans_value* environment, ekans_value** pReturn) {
 
 void cdr(ekans_value* environment, ekans_value** pReturn) {
   if (environment->value.e.binding_count != 1) {
-    fprintf(stderr, "Error: car requires exactly two arguments\n");
+    fprintf(stderr, "Error: cdr requires exactly one arguments\n");
     exit(1);
   }
   if (environment->value.e.bindings[0]->type != cons) {
-    fprintf(stderr, "Error: car requires its 1st argument to be a pair\n");
+    fprintf(stderr, "Error: cdr requires its 1st argument to be a pair\n");
     exit(1);
   }
   *pReturn = environment->value.e.bindings[0]->value.l.tail;
