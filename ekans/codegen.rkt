@@ -270,7 +270,7 @@
          [list-statement-c-code (car list-statement-quoted-result)]
          [list-statement-total-variables (cadr list-statement-quoted-result)]
          [context (caddr list-statement-quoted-result)])
-    (define log-prefix "[generate-list-constructor-statement][log]")
+    ; (define log-prefix "[generate-list-constructor-statement][log]")
     ; (displayln (format "~a list-statement: ~a" log-prefix list-statement))
     ; (displayln (format "~a context: ~a" log-prefix context))
     ; (displayln (format "~a list-statement-number-statements: ~a" log-prefix list-statement-number-statements))
