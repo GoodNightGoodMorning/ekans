@@ -534,9 +534,21 @@ void equals(ekans_value* environment, ekans_value** pReturn) {
   }
   assert(environment->value.e.bindings[0] != NULL);
   assert(environment->value.e.bindings[1] != NULL);
-  ekans_value* v1     = environment->value.e.bindings[0];
-  ekans_value* v2     = environment->value.e.bindings[1];
-  bool         result = is(v1, number) && is(v2, number) && (v1->value.n == v2->value.n);
+  ekans_value* v1 = environment->value.e.bindings[0];
+  ekans_value* v2 = environment->value.e.bindings[1];
+  if (v1->type != v2->type) {
+    fprintf(stderr, "Error: type mismatch encountered in equals\n");
+    exit(1);
+  }
+  bool result = false;
+  if (is(v1, number)) {
+    result = v1->value.n == v2->value.n;
+  } else if (is(v1, character)) {
+    result = v1->value.a == v2->value.a;
+  } else {
+    fprintf(stderr, "Error: unsupported type encountered in equals\n");
+    exit(1);
+  }
   create_boolean_value(result, pReturn);
 }
 
