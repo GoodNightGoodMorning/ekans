@@ -15,6 +15,6 @@
   (if (null? lst)
       acc
       (let ([digit (char->integer (car lst))])
-        (digits-to-number (cdr lst) (+ (* acc 10) (- digit 48))))))
+        (digits-to-number (cdr lst) (+ (* acc 10) (- digit (char->integer #\0)))))))
 
 (digits-to-number '(#\1 #\2 #\3) 0)

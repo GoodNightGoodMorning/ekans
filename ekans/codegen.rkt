@@ -602,7 +602,7 @@
              [function-result (generate-function function-id function-body function-context)]
              [function-code (car function-result)]
              [function-context (cdr function-result)]
-; Reverse the list because `cons` enqueues functions in reverse order, ensuring correct queue order.
+             ; Reverse the list because `cons` enqueues functions in reverse order, ensuring correct queue order.
              [queue (append queue (reverse (pending-functions function-context)))]
              [function-context (list 0 ; number of variables
                                      (number-of-functions function-context) ; number of functions
