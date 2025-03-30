@@ -262,23 +262,6 @@
               context))
       (generate-statements (cddadr cond-statement) context '())))
 
-; list-statement
-; e.g. (list 1 2 3 4 ...)
-(define (generate-list-constructor-statement list-statement context)
-  (let* (; [list-statement-number-statements (cdr list-statement)]
-         [list-statement-quoted-result (generate-list-statement-quoted list-statement context)]
-         [list-statement-c-code (car list-statement-quoted-result)]
-         [list-statement-total-variables (cadr list-statement-quoted-result)]
-         [context (caddr list-statement-quoted-result)])
-    ; (define log-prefix "[generate-list-constructor-statement][log]")
-    ; (displayln (format "~a list-statement: ~a" log-prefix list-statement))
-    ; (displayln (format "~a context: ~a" log-prefix context))
-    ; (displayln (format "~a list-statement-number-statements: ~a" log-prefix list-statement-number-statements))
-    ; (displayln (format "~a list-statement-quoted-result: ~a" log-prefix list-statement-quoted-result))
-    ; (displayln (format "~a list-statement-c-code: ~a" log-prefix list-statement-c-code))
-    ; (displayln (format "~a list-statement-total-variables: ~a" log-prefix list-statement-total-variables))
-    (list (string-append list-statement-c-code) list-statement-total-variables context)))
-
 ;
 ; A list statement is simply a list in the source code. It could be a function call, a lambda, and many other things
 ; that we will handle in the future.
@@ -313,9 +296,6 @@
       [(and (equal? (caar list-statement-list) 'symbol-statement)
             (equal? (cdar list-statement-list) "cond"))
        (generate-cond-statement list-statement-list context)]
-      [(and (equal? (caar list-statement-list) 'symbol-statement)
-            (equal? (cdar list-statement-list) "list"))
-       (generate-list-constructor-statement list-statement-list context)]
       ; we cannot treat them as function - if we do, we will always evaluate all branches, which is not
       ; the way it should be
       [else (generate-application list-statement-list context)])))
