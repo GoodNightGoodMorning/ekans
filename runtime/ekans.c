@@ -587,7 +587,7 @@ void member(ekans_value* environment, ekans_value** pReturn) {
     fprintf(stderr, "[%s][Error]: the list must end with a nil type to be valid\n", __PRETTY_FUNCTION__);
     exit(1);
   }
-  create_nil_value(pReturn); // target is not in the list
+  create_boolean_value(false, pReturn); // target is not in the list
 }
 
 // Allocation helpers - just quit the process whenever an error happens
