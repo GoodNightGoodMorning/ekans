@@ -577,7 +577,12 @@ void member(ekans_value* environment, ekans_value** pReturn) {
     equals(equals_env, &equals_result);
 
     if (is_true(equals_result)) {
-      *pReturn = list;
+      // *pReturn = list;
+      //
+      // Warning: `return true` is not the definition of member function in Racket
+      // please check the original definition in Racket:
+      // https://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._racket%2Fprivate%2Fbase..rkt%29._member%29%29
+      create_boolean_value(true, pReturn);
       return;
     }
     list = list->value.l.tail;
