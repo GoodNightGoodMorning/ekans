@@ -441,11 +441,15 @@
              variable-id
              context)]
       [(eq? quoted-statement-type 'char-statement)
-       (list (string-append
-              (format "  create_char_value('~a', &v~a);\n" (cdr quoted-statement) variable-id)
-              (optional-collect))
-             variable-id
-             context)]
+       (list
+        (string-append
+         (cond
+           [(equal? (cdr quoted-statement) #\newline)
+            (format "  create_char_value('\\n', &v~a);\n" variable-id)]
+           [else (format "  create_char_value('~a', &v~a);\n" (cdr quoted-statement) variable-id)])
+         (optional-collect))
+        variable-id
+        context)]
       [(eq? quoted-statement-type 'list-statement)
        (generate-list-statement-quoted quoted-statement context)]
       [(eq? quoted-statement-type 'symbol-statement)
