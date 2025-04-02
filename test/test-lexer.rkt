@@ -60,8 +60,8 @@
  (test-case "Test #\\newline only"
    (check-equal? (lexer (string->list "#\\newline")) (cons (cons 'character #\newline) '())))
  (test-case "Test #\\newline with other characters"
-   (check-equal? (lexer (string->list "#\\newline123"))
-                 (cons (cons 'character #\newline) (string->list "123"))))
+   (check-equal? (lexer (string->list "#\\newline 123"))
+                 (cons (cons 'character #\newline) (string->list " 123"))))
  ; add more test cases here
  )
 
