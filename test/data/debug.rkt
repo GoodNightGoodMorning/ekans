@@ -46,6 +46,9 @@
 
 (member 23 '(12 23 34))
 
+(define xs '(#\newline #\g))
+xs
+
 ; (define (token-end? suffix)
 ;   (or (null? suffix) (member (car suffix) '(#\space #\newline #\( #\) #\[ #\]))))
 ;

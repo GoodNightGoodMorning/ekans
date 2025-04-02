@@ -30,9 +30,10 @@
   (or (null? suffix) (member (car suffix) '(#\space #\newline #\( #\) #\[ #\]))))
 
 (define (skip-comment input)
-  (if (or (null? input) (equal? (car input) #\newline))
-      input
-      (skip-comment (cdr input))))
+  (cond
+    [(null? input) '()]
+    [(equal? (car input) #\newline) (cdr input)]
+    [else (skip-comment (cdr input))]))
 
 ;
 ; match
@@ -108,9 +109,15 @@
                 [(equal? peek #\') (cons (cons 'quote '()) (cdr input))]
                 ; Character
                 [(and (pair? (cdr input)) (equal? peek #\#) (equal? (cadr input) #\\))
-                 (if (pair? (cddr input))
-                     (cons (cons 'character (caddr input)) (cdddr input))
-                     (cons (cons 'unknown '()) '()))]
+                 (cond
+                   ; case: #\newline
+                   [(and (>= (length input) 9)
+                         (equal? (list->string (take (cdr (cdr input)) 7)) "newline"))
+                    (cons (cons 'character #\newline) (drop (cdr (cdr input)) 7))]
+                   ; case: alphabet
+                   [(pair? (cddr input)) (cons (cons 'character (caddr input)) (cdddr input))]
+                   ; case: unknown
+                   [else (cons (cons 'unknown '()) '())])]
                 ; Number
                 [(digit? peek)
                  (let ([number-result (take-while input digit?)])
