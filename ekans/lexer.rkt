@@ -76,7 +76,10 @@
             (lexer-keywords input (cdr keywords))))))
 
 (define keywords
-  (list (cons (string->list "#t") (cons 'bool #t)) (cons (string->list "#f") (cons 'bool #f))))
+  (list (cons (string->list "#t") (cons 'bool #t))
+        (cons (string->list "#f") (cons 'bool #f))
+        (cons (string->list "#\\newline") (cons 'character #\newline))
+        (cons (string->list "#\\space") (cons 'character #\space))))
 
 ;
 ; lexer
@@ -110,10 +113,6 @@
                 ; Character
                 [(and (pair? (cdr input)) (equal? peek #\#) (equal? (cadr input) #\\))
                  (cond
-                   ; case: #\newline
-                   [(and (>= (length input) 9)
-                         (equal? (list->string (take (cdr (cdr input)) 7)) "newline"))
-                    (cons (cons 'character #\newline) (drop (cdr (cdr input)) 7))]
                    ; case: alphabet
                    [(pair? (cddr input)) (cons (cons 'character (caddr input)) (cdddr input))]
                    ; case: unknown
