@@ -272,26 +272,81 @@ bool is(ekans_value* obj, ekans_type type) {
 }
 
 void format(ekans_value* environment, ekans_value** pReturn) {
-  int index = 0;
+  buffer buff;
+  allocate_buffer(&buff);
+  {
+    // Example:
+    // fmt_str = "Hello ~a and ~a"
+    // environment->value.e.binding_count = 3
+    // environment->value.e.bindings[0]->value.s = "Hello ~a and ~a"
+    // environment->value.e.bindings[1]->value.s = "Alice"
+    // environment->value.e.bindings[2]->value.s = "Bob"
+    // Result: "Hello Alice and Bob"
+    const char* fmt_str = environment->value.e.bindings[0]->value.s;
+    int         arg_idx = 1; // start with the first argument after the format string
 
-  buffer_t buffer;
-  allocate_buffer(&buffer);
-
-  char* str = environment->value.e.bindings[0]->value.s;
-  for (int i = 0; str[i] != '\0'; i++) {
-    if (str[i] == '~' && str[i + 1] == 'a') {
-      ekans_value_to_string(environment->value.e.bindings[index], &buffer);
-      index++;
-      i++;
-    } else {
-      append_char(&buffer, str[i]);
+    for (const char* c = fmt_str; c != NULL && *c != '\0'; ++c) {
+      if (*c == '~' && *(c + 1) == 'a') {
+        if (arg_idx >= environment->value.e.binding_count) {
+          fprintf(stderr, "[%s] arguments index error !!! \n", __PRETTY_FUNCTION__);
+          exit(1);
+        }
+        ekans_value* arg = environment->value.e.bindings[arg_idx++];
+        append_string(&buff, arg->value.s);
+        ++c; // skip 'a', e.g. fmt_str = "Hello ~a and ~a"
+      } else {
+        append_char(&buff, *c);
+      }
     }
+    create_string_value(buff.begin, pReturn);
   }
-  create_string_value(buffer.begin, pReturn);
-  deallocate_buffer(&buffer);
+  deallocate_buffer(&buff);
 }
 
-void ekans_value_to_string(ekans_value* v, buffer_t* b) {
+void ekans_value_to_string(ekans_value* v, buffer* b) {
+  switch (v->type) {
+    case number: {
+      append_int(b, v->value.n);
+    } break;
+    case boolean: {
+      append_bool(b, v->value.b);
+    } break;
+    case character: {
+      append_char(b, v->value.a);
+    } break;
+    case symbol: {
+      append_string(b, v->value.s);
+    } break;
+    case string: {
+      append_string(b, v->value.s);
+    } break;
+    case cons: {
+      append_string(b, "(");
+      while (true) {
+        ekans_value_to_string(v->value.l.head, b);
+        v = v->value.l.tail;
+        if (v->type == nil) {
+          append_string(b, ")");
+          break;
+        } else if (v->type == cons) {
+          append_string(b, " ");
+        } else {
+          append_string(b, " . ");
+          ekans_value_to_string(v, b);
+          append_string(b, ")");
+          break;
+        }
+      }
+      break;
+    }
+    case nil: {
+      append_string(b, "()");
+      break;
+    }
+    default: {
+      assert(!"[ekans_value_to_string][error]: unsupported type");
+    } break;
+  }
 }
 
 void print_ekans_value(ekans_value* v) {
@@ -761,60 +816,64 @@ void brutal_free(void* ptr) {
 
 /* buffer */
 
-void allocate_buffer(buffer_t* buffer) {
-  buffer->begin    = (char*)brutal_malloc(1024);
-  buffer->end      = buffer->begin;
-  buffer->capacity = 1024;
+void allocate_buffer(buffer* buff) {
+  buff->begin    = (char*)brutal_malloc(1024);
+  buff->end      = buff->begin;
+  buff->capacity = 1024;
+  buff->begin[0] = '\0';
 }
 
-void deallocate_buffer(buffer_t* buffer) {
-  brutal_free(buffer->begin);
-  buffer->begin    = NULL;
-  buffer->end      = NULL;
-  buffer->capacity = 0;
+void deallocate_buffer(buffer* buff) {
+  brutal_free(buff->begin);
+  buff->begin    = NULL;
+  buff->end      = NULL;
+  buff->capacity = 0;
 }
 
-void append_bool(buffer_t* buffer, bool b) {
+void append_bool(buffer* buff, bool b) {
   if (b) {
-    append_string(buffer, "#t");
+    append_string(buff, "#t");
   } else {
-    append_string(buffer, "#f");
+    append_string(buff, "#f");
   }
 }
 
-void append_int(buffer_t* buffer, int n) {
+void append_int(buffer* buff, int n) {
   char str[32];
   snprintf(str, sizeof(str), "%d", n);
-  append_string(buffer, str);
+  append_string(buff, str);
 }
 
-void append_char(buffer_t* buffer, char c) {
+void append_char(buffer* buff, char c) {
   char str[2];
   str[0] = c;
   str[1] = '\0';
-  append_string(buffer, str);
+  append_string(buff, str);
 }
 
-void append_string(buffer_t* buffer, const char* str) {
-  int len               = strlen(str);
-  int required_capacity = (buffer->end - buffer->begin) + len;
+void append_string(buffer* buff, const char* str) {
+  const int len                = strlen(str);
+  const int requested_capacity = (buff->end - buff->begin) + len;
 
-  if (required_capacity > buffer->capacity) {
-    int new_capacity = buffer->capacity * 2;
-    while (new_capacity < required_capacity) {
+  if (requested_capacity > buff->capacity) {
+    int new_capacity = buff->capacity * 2;
+    while (new_capacity < requested_capacity) {
       new_capacity *= 2;
     }
 
-    size_t offset    = buffer->end - buffer->begin;
-    char*  new_begin = (char*)brutal_malloc(new_capacity);
-    memcpy(new_begin, buffer->begin, offset);
-    brutal_free(buffer->begin);
+    const int   offset    = buff->end - buff->begin;
+    char* const new_begin = (char*)brutal_malloc(new_capacity);
+    {
+      memmove(new_begin, buff->begin, offset); //
+    }
+    brutal_free(buff->begin);
 
-    buffer->begin         = new_begin;
-    buffer->begin[offset] = '\0';
-    buffer->end           = buffer->begin + offset;
-    buffer->capacity      = new_capacity;
+    buff->begin         = new_begin;
+    buff->begin[offset] = '\0';
+    buff->end           = buff->begin + offset;
+    buff->capacity      = new_capacity;
   }
-  strncpy(buffer->end, str, len);
-  buffer->end += len;
+  memcpy(buff->end, str, len);
+  buff->end += len;
+  *buff->end = '\0';
 }

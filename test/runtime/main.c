@@ -183,6 +183,43 @@ void test_addition(void) {
   printf("[%s] passed\n", __FUNCTION__);
 }
 
+void test_format_string() {
+  initialize_ekans(0, NULL);
+
+  ekans_value* environment   = NULL;
+  ekans_value* result        = NULL;
+  ekans_value* format_string = NULL;
+  ekans_value* arg1          = NULL;
+  ekans_value* arg2          = NULL;
+
+  push_stack_slot(&environment);
+  push_stack_slot(&result);
+  push_stack_slot(&format_string);
+  push_stack_slot(&arg1);
+  push_stack_slot(&arg2);
+
+  create_environment(NULL, 3, &environment);
+
+  create_string_value("Hello ~a and ~a!", &format_string);
+  set_environment(environment, 0, format_string);
+
+  create_string_value("Alice", &arg1);
+  create_string_value("Bob", &arg2);
+  set_environment(environment, 1, arg1);
+  set_environment(environment, 2, arg2);
+
+  format(environment, &result);
+
+  // printf("[log] %s\n", result->value.s);
+
+  assert(is(result, string));
+  assert(strcmp(result->value.s, "Hello Alice and Bob!") == 0);
+
+  pop_stack_slot(5);
+  finalize_ekans();
+  printf("[%s] passed\n", __FUNCTION__);
+}
+
 int main() {
   printf("=====================\n");
   test_initialize_ekans();
@@ -194,6 +231,7 @@ int main() {
   test_create_newline_value();
   test_create_string_value();
   test_addition();
+  test_format_string();
   printf("=====================\n");
   printf("All tests passed!\n");
   return 0;

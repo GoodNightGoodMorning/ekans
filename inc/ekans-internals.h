@@ -63,19 +63,19 @@ typedef struct buffer {
   char* begin;
   char* end;
   int   capacity;
-} buffer_t;
+} buffer;
 
-void allocate_buffer(buffer_t* buffer);
+void allocate_buffer(buffer* buff);
 
-void deallocate_buffer(buffer_t* buffer);
+void deallocate_buffer(buffer* buff);
 
-void append_bool(buffer_t* buffer, bool b);
+void append_bool(buffer* buff, bool b);
 
-void append_int(buffer_t* buffer, int n);
+void append_int(buffer* buff, int n);
 
-void append_char(buffer_t* buffer, char c);
+void append_char(buffer* buff, char c);
 
-void append_string(buffer_t* buffer, const char* str);
+void append_string(buffer* buff, const char* str);
 
 extern stack_slot* g_stack_slots;
 

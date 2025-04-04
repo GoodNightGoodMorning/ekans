@@ -16,7 +16,7 @@ typedef enum {
 } bool;
 
 typedef struct ekans_value ekans_value;
-typedef struct buffer      buffer_t;
+typedef struct buffer      buffer;
 
 typedef void (*ekans_function)(ekans_value*, ekans_value**);
 
@@ -104,7 +104,7 @@ bool is_true(ekans_value* v);
 
 void format(ekans_value* environment, ekans_value** pReturn);
 
-void ekans_value_to_string(ekans_value* v, buffer_t* b);
+void ekans_value_to_string(ekans_value* v, buffer* b);
 
 void print_ekans_value(ekans_value* v);
 
