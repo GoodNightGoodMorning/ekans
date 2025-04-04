@@ -271,6 +271,29 @@ bool is(ekans_value* obj, ekans_type type) {
   return ((obj->type | EKANS_MARK_BITS) == (type | EKANS_MARK_BITS));
 }
 
+void format(ekans_value* environment, ekans_value** pReturn) {
+  int index = 0;
+
+  buffer_t buffer;
+  allocate_buffer(&buffer);
+
+  char* str = environment->value.e.bindings[0]->value.s;
+  for (int i = 0; str[i] != '\0'; i++) {
+    if (str[i] == '~' && str[i + 1] == 'a') {
+      ekans_value_to_string(environment->value.e.bindings[index], &buffer);
+      index++;
+      i++;
+    } else {
+      append_char(&buffer, str[i]);
+    }
+  }
+  create_string_value(buffer.begin, pReturn);
+  deallocate_buffer(&buffer);
+}
+
+void ekans_value_to_string(ekans_value* v, buffer_t* b) {
+}
+
 void print_ekans_value(ekans_value* v) {
   print_ekans_value_helper(v);
   printf("\n");
@@ -734,4 +757,64 @@ void* brutal_calloc(size_t count, size_t size) {
 void brutal_free(void* ptr) {
   // fprintf(stderr, "free %p\n", ptr);
   free(ptr);
+}
+
+/* buffer */
+
+void allocate_buffer(buffer_t* buffer) {
+  buffer->begin    = (char*)brutal_malloc(1024);
+  buffer->end      = buffer->begin;
+  buffer->capacity = 1024;
+}
+
+void deallocate_buffer(buffer_t* buffer) {
+  brutal_free(buffer->begin);
+  buffer->begin    = NULL;
+  buffer->end      = NULL;
+  buffer->capacity = 0;
+}
+
+void append_bool(buffer_t* buffer, bool b) {
+  if (b) {
+    append_string(buffer, "#t");
+  } else {
+    append_string(buffer, "#f");
+  }
+}
+
+void append_int(buffer_t* buffer, int n) {
+  char str[32];
+  snprintf(str, sizeof(str), "%d", n);
+  append_string(buffer, str);
+}
+
+void append_char(buffer_t* buffer, char c) {
+  char str[2];
+  str[0] = c;
+  str[1] = '\0';
+  append_string(buffer, str);
+}
+
+void append_string(buffer_t* buffer, const char* str) {
+  int len               = strlen(str);
+  int required_capacity = (buffer->end - buffer->begin) + len;
+
+  if (required_capacity > buffer->capacity) {
+    int new_capacity = buffer->capacity * 2;
+    while (new_capacity < required_capacity) {
+      new_capacity *= 2;
+    }
+
+    size_t offset    = buffer->end - buffer->begin;
+    char*  new_begin = (char*)brutal_malloc(new_capacity);
+    memcpy(new_begin, buffer->begin, offset);
+    brutal_free(buffer->begin);
+
+    buffer->begin         = new_begin;
+    buffer->begin[offset] = '\0';
+    buffer->end           = buffer->begin + offset;
+    buffer->capacity      = new_capacity;
+  }
+  strncpy(buffer->end, str, len);
+  buffer->end += len;
 }

@@ -16,6 +16,7 @@ typedef enum {
 } bool;
 
 typedef struct ekans_value ekans_value;
+typedef struct buffer      buffer_t;
 
 typedef void (*ekans_function)(ekans_value*, ekans_value**);
 
@@ -100,6 +101,10 @@ void is_pair(ekans_value* environment, ekans_value** pReturn);
 // primitive functions (called by compiler only)
 
 bool is_true(ekans_value* v);
+
+void format(ekans_value* environment, ekans_value** pReturn);
+
+void ekans_value_to_string(ekans_value* v, buffer_t* b);
 
 void print_ekans_value(ekans_value* v);
 
