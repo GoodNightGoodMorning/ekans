@@ -35,7 +35,7 @@
                  ;
                  ; Begin TODO
                  ;
-                 ("list->string" "char_to_int")
+                 ("list->string" "list_to_string")
                  ("string-append" "char_to_int")
                  ("format" "char_to_int")
                  ("cadr" "char_to_int")

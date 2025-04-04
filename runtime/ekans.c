@@ -787,6 +787,41 @@ void member(ekans_value* environment, ekans_value** pReturn) {
   create_boolean_value(false, pReturn); // target is not in the list
 }
 
+// Begin TODO
+
+void list_to_string(ekans_value* environment, ekans_value** pReturn) {
+  if (environment->value.e.binding_count != 1) {
+    fprintf(stderr, "[%s] error: requires exactly one arguments\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+
+  assert(environment->value.e.bindings[0] != NULL);
+
+  if (environment->value.e.bindings[0]->type != cons) {
+    fprintf(stderr, "[%s] error: requires 1st argument to be a pair\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+
+  buffer buff;
+  allocate_buffer(&buff);
+  ekans_value* list = environment->value.e.bindings[0];
+  while (list->type == cons) {
+    ekans_value_to_string(list->value.l.head, &buff);
+    list = list->value.l.tail;
+    if (list->type == nil) {
+      break;
+    } else if (list->type != cons) {
+      fprintf(stderr, "[%s][error]: the list must end with a nil type\n", __PRETTY_FUNCTION__);
+      exit(1);
+    }
+    append_string(&buff, " ");
+  }
+  create_string_value(buff.begin, pReturn);
+  deallocate_buffer(&buff);
+}
+
+// End TODO
+
 // Allocation helpers - just quit the process whenever an error happens
 
 void* brutal_malloc(size_t size) {

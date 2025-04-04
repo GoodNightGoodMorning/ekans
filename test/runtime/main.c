@@ -220,6 +220,49 @@ void test_format_string() {
   printf("[%s] passed\n", __FUNCTION__);
 }
 
+void test_list_to_string() {
+  initialize_ekans(0, NULL);
+
+  ekans_value* environment = NULL;
+  ekans_value* result      = NULL;
+  ekans_value* list        = NULL;
+  ekans_value* node1       = NULL;
+  ekans_value* node2       = NULL;
+  ekans_value* node3       = NULL;
+
+  push_stack_slot(&environment);
+  push_stack_slot(&result);
+  push_stack_slot(&list);
+  push_stack_slot(&node1);
+  push_stack_slot(&node2);
+  push_stack_slot(&node3);
+
+  // Create the list: '(123456 "gapry" #t)
+  create_number_value(123456, &node1);
+  create_string_value("gapry", &node2);
+  create_boolean_value(true, &node3);
+
+  ekans_value* xs = NULL;
+  create_nil_value(&xs);
+  create_cons_cell(node3, xs, &xs);
+  create_cons_cell(node2, xs, &xs);
+  create_cons_cell(node1, xs, &list);
+
+  create_environment(NULL, 1, &environment);
+  set_environment(environment, 0, list);
+
+  list_to_string(environment, &result);
+
+  // printf("%s\n", result->value.s);
+
+  assert(is(result, string));
+  assert(strcmp(result->value.s, "123456 gapry #t") == 0);
+
+  pop_stack_slot(5);
+  finalize_ekans();
+  printf("[%s] passed\n", __FUNCTION__);
+}
+
 int main() {
   printf("=====================\n");
   test_initialize_ekans();
@@ -232,6 +275,7 @@ int main() {
   test_create_string_value();
   test_addition();
   test_format_string();
+  test_list_to_string();
   printf("=====================\n");
   printf("All tests passed!\n");
   return 0;
