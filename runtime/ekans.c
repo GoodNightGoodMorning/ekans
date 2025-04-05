@@ -707,7 +707,7 @@ void failfast(ekans_value* environment, ekans_value** pReturn) {
 
 void is_pair(ekans_value* environment, ekans_value** pReturn) {
   if (environment->value.e.binding_count != 1) {
-    fprintf(stderr, "Error: error requires exactly one arguments\n");
+    fprintf(stderr, "Error: is_pair requires exactly one arguments\n");
     exit(1);
   }
   assert(environment->value.e.bindings[0] != NULL);
@@ -1160,7 +1160,7 @@ void append_char(buffer* buff, char c) {
 
 void append_string(buffer* buff, const char* str) {
   const int len                = strlen(str);
-  const int requested_capacity = (buff->end - buff->begin) + len;
+  const int requested_capacity = (buff->end - buff->begin) + len + 1;
 
   if (requested_capacity > buff->capacity) {
     int new_capacity = buff->capacity * 2;
