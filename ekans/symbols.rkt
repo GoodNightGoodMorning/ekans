@@ -46,7 +46,7 @@
                  ("caadr" "caadr")
                  ("caar" "caar")
                  ("cdar" "cdar")
-                 ("cdddr" "char_to_int")
+                 ("cdddr" "cdddr")
                  ("cadddr" "char_to_int")
                  ("write-file" "char_to_int")
                  ("read-file" "char_to_int")

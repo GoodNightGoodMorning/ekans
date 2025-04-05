@@ -989,6 +989,32 @@ void cdar(ekans_value* environment, ekans_value** pReturn) {
   cdr(cdr_env, pReturn);
 }
 
+// cdddr = cdr(cdr(cdr(list)))
+//
+// > (cdddr '(1 2 3 4))
+// '(4)
+// > (cdr (cdr (cdr '(1 2 3 4))))
+// '(4)
+void cdddr(ekans_value* environment, ekans_value** pReturn) {
+  ekans_value* cdr_env1    = NULL;
+  ekans_value* cdr_env2    = NULL;
+  ekans_value* cdr_env3    = NULL;
+  ekans_value* cdr_result1 = NULL;
+  ekans_value* cdr_result2 = NULL;
+
+  create_environment(NULL, 1, &cdr_env1);
+  set_environment(cdr_env1, 0, environment->value.e.bindings[0]);
+  cdr(cdr_env1, &cdr_result1);
+
+  create_environment(NULL, 1, &cdr_env2);
+  set_environment(cdr_env2, 0, cdr_result1);
+  cdr(cdr_env2, &cdr_result2);
+
+  create_environment(NULL, 1, &cdr_env3);
+  set_environment(cdr_env3, 0, cdr_result2);
+  cdr(cdr_env3, pReturn);
+}
+
 // End TODO
 
 // Allocation helpers - just quit the process whenever an error happens
