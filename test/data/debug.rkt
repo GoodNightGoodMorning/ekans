@@ -1215,7 +1215,7 @@
                  ("caar" "caar")
                  ("cdar" "cdar")
                  ("cdddr" "cdddr")
-                 ("cadddr" "char_to_int")
+                 ("cadddr" "cadddr")
                  ("write-file" "char_to_int")
                  ("read-file" "char_to_int")
                  ;
