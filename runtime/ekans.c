@@ -794,7 +794,7 @@ void string_append(ekans_value* environment, ekans_value** pReturn) {
   allocate_buffer(&buff);
   for (int i = 0; i < environment->value.e.binding_count; i++) {
     assert(environment->value.e.bindings[i] != NULL);
-    if (environment->value.e.bindings[0]->type != string) {
+    if (environment->value.e.bindings[i]->type != string) {
       fprintf(stderr, "[%s] string_append: requires argument to be a string\n", __PRETTY_FUNCTION__);
       exit(1);
     }
