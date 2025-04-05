@@ -110,6 +110,8 @@ void cadr(ekans_value* environment, ekans_value** pReturn);
 
 void caddr(ekans_value* environment, ekans_value** pReturn);
 
+void cddr(ekans_value* environment, ekans_value** pReturn);
+
 // End TODO
 
 // primitive functions (called by compiler only)

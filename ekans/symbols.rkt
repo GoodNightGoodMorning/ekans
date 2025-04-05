@@ -40,7 +40,7 @@
                  ("format" "format")
                  ("cadr" "cadr")
                  ("caddr" "caddr")
-                 ("cddr" "char_to_int")
+                 ("cddr" "cddr")
                  ("cddadr" "char_to_int")
                  ("cdadr" "char_to_int")
                  ("caadr" "char_to_int")
