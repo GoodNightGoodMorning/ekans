@@ -52,7 +52,7 @@ build/test-runtime.out: build/ekans.o test/runtime/main.c
 	mkdir -p build
 	$(CC) $(INCLUDES) $(CFLAGS) -o build/test-runtime.out test/runtime/main.c build/ekans.o
 
-test-all: test-racket test-runtime test-execution test-phase-1
+test-all: test-racket test-runtime test-execution test-self-hosting
 
 test-phase-0: build/debug.c
 
