@@ -1213,7 +1213,7 @@
                  ("cdadr" "cdadr")
                  ("caadr" "caadr")
                  ("caar" "caar")
-                 ("cdar" "char_to_int")
+                 ("cdar" "cdar")
                  ("cdddr" "char_to_int")
                  ("cadddr" "char_to_int")
                  ("write-file" "char_to_int")
