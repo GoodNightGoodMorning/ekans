@@ -767,6 +767,11 @@ void list_to_string(ekans_value* environment, ekans_value** pReturn) {
 
   assert(environment->value.e.bindings[0] != NULL);
 
+  if (environment->value.e.bindings[0]->type == nil) {
+    create_string_value("", pReturn);
+    return;
+  }
+
   if (environment->value.e.bindings[0]->type != cons) {
     fprintf(stderr, "[%s] error: requires 1st argument to be a pair\n", __PRETTY_FUNCTION__);
     exit(1);
