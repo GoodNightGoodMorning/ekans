@@ -847,6 +847,18 @@ void format(ekans_value* environment, ekans_value** pReturn) {
   deallocate_buffer(&buff);
 }
 
+// cadr = car(cdr(list))
+void cadr(ekans_value* environment, ekans_value** pReturn) {
+  ekans_value* cdr_result = NULL;
+  cdr(environment, &cdr_result);
+
+  ekans_value* cadr_env = NULL;
+  create_environment(NULL, 1, &cadr_env);
+  set_environment(cadr_env, 0, cdr_result);
+
+  car(cadr_env, pReturn);
+}
+
 // End TODO
 
 // Allocation helpers - just quit the process whenever an error happens

@@ -1206,7 +1206,7 @@
                  ("list->string" "list_to_string")
                  ("string-append" "string_append")
                  ("format" "format")
-                 ("cadr" "char_to_int")
+                 ("cadr" "cadr")
                  ("caddr" "char_to_int")
                  ("cddr" "char_to_int")
                  ("cddadr" "char_to_int")

@@ -106,6 +106,8 @@ void string_append(ekans_value* environment, ekans_value** pReturn);
 
 void format(ekans_value* environment, ekans_value** pReturn);
 
+void cadr(ekans_value* environment, ekans_value** pReturn);
+
 // End TODO
 
 // primitive functions (called by compiler only)
