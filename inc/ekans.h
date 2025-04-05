@@ -104,13 +104,13 @@ void list_to_string(ekans_value* environment, ekans_value** pReturn);
 
 void string_append(ekans_value* environment, ekans_value** pReturn);
 
+void format(ekans_value* environment, ekans_value** pReturn);
+
 // End TODO
 
 // primitive functions (called by compiler only)
 
 bool is_true(ekans_value* v);
-
-void format(ekans_value* environment, ekans_value** pReturn);
 
 void ekans_value_to_string(ekans_value* v, buffer* b);
 
