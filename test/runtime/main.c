@@ -805,6 +805,32 @@ void test_write_file() {
   printf("[%s] passed\n", __FUNCTION__);
 }
 
+void test_read_file() {
+  initialize_ekans(0, NULL);
+
+  ekans_value* environment = NULL;
+  ekans_value* result      = NULL;
+  ekans_value* filename    = NULL;
+
+  push_stack_slot(&environment);
+  push_stack_slot(&result);
+  push_stack_slot(&filename);
+
+  create_environment(NULL, 1, &environment);
+
+  create_string_value("build/test_write_file.txt", &filename);
+  set_environment(environment, 0, filename);
+
+  read_file(environment, &result);
+
+  assert(is(result, string));
+  assert(strcmp(result->value.s, "Hello, World!") == 0);
+
+  pop_stack_slot(3);
+  finalize_ekans();
+  printf("[%s] passed\n", __FUNCTION__);
+}
+
 int main() {
   printf("=====================\n");
   test_initialize_ekans();
@@ -829,6 +855,7 @@ int main() {
     test_cdddr();
     test_cadddr();
     test_write_file();
+    test_read_file();
     test_format_string();
     test_string_append();
     test_list_to_string();

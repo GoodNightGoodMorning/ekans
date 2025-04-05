@@ -128,6 +128,8 @@ void cadddr(ekans_value* environment, ekans_value** pReturn);
 
 void write_file(ekans_value* environment, ekans_value** pReturn);
 
+void read_file(ekans_value* environment, ekans_value** pReturn);
+
 // End TODO
 
 // primitive functions (called by compiler only)

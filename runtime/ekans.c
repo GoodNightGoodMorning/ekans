@@ -1068,6 +1068,35 @@ void write_file(ekans_value* environment, ekans_value** pReturn) {
   create_nil_value(pReturn);
 }
 
+void read_file(ekans_value* environment, ekans_value** pReturn) {
+  if (environment->value.e.binding_count != 1) {
+    fprintf(stderr, "[%s] error: requires exactly one argument\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+
+  assert(environment->value.e.bindings[0] != NULL);
+
+  if (environment->value.e.bindings[0]->type != string) {
+    fprintf(stderr, "[%s] error: requires 1st argument to be a string\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+
+  FILE* file = fopen(environment->value.e.bindings[0]->value.s, "r");
+  if (file == NULL) {
+    fprintf(stderr,
+            "[%s] error: failed to open file %s\n",
+            __PRETTY_FUNCTION__,
+            environment->value.e.bindings[0]->value.s);
+    exit(1);
+  }
+
+  char* str = (char*)brutal_malloc(1024);
+  fgets(str, 1024, file);
+  fclose(file);
+  create_string_value(str, pReturn);
+  brutal_free(str);
+}
+
 // End TODO
 
 // Allocation helpers - just quit the process whenever an error happens

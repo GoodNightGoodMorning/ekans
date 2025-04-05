@@ -1217,7 +1217,7 @@
                  ("cdddr" "cdddr")
                  ("cadddr" "cadddr")
                  ("write-file" "write_file")
-                 ("read-file" "char_to_int")
+                 ("read-file" "read_file")
                  ;
                  ; End TODO
                  ;
