@@ -44,7 +44,7 @@
                  ("cddadr" "cddadr")
                  ("cdadr" "cdadr")
                  ("caadr" "caadr")
-                 ("caar" "char_to_int")
+                 ("caar" "caar")
                  ("cdar" "char_to_int")
                  ("cdddr" "char_to_int")
                  ("cadddr" "char_to_int")

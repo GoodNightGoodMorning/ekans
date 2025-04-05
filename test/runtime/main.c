@@ -581,6 +581,53 @@ void test_caadr() {
   printf("[%s] passed\n", __FUNCTION__);
 }
 
+// caar
+//
+// > (caar '((2 3) 4))
+// 2
+// > (car (car '((2 3) 4)))
+// 2
+void test_caar() {
+  initialize_ekans(0, NULL);
+
+  ekans_value* environment = NULL;
+  ekans_value* result      = NULL;
+  ekans_value* list        = NULL;
+  ekans_value* sublist     = NULL;
+  ekans_value* node1       = NULL;
+  ekans_value* node2       = NULL;
+
+  push_stack_slot(&environment);
+  push_stack_slot(&result);
+  push_stack_slot(&list);
+  push_stack_slot(&sublist);
+  push_stack_slot(&node1);
+  push_stack_slot(&node2);
+
+  create_number_value(2, &node1);
+  create_number_value(3, &node2);
+
+  create_nil_value(&sublist);
+  create_cons_cell(node2, sublist, &sublist);
+  create_cons_cell(node1, sublist, &sublist);
+
+  create_nil_value(&list);
+  create_cons_cell(sublist, list, &list);
+
+  create_environment(NULL, 1, &environment);
+  set_environment(environment, 0, list);
+
+  caar(environment, &result);
+  // printf("%d\n", result->value.n);
+
+  assert(is(result, number));
+  assert(result->value.n == 2);
+
+  pop_stack_slot(6);
+  finalize_ekans();
+  printf("[%s] passed\n", __FUNCTION__);
+}
+
 int main() {
   printf("=====================\n");
   test_initialize_ekans();
@@ -600,6 +647,7 @@ int main() {
     test_cddadr();
     test_cdadr();
     test_caadr();
+    test_caar();
     test_format_string();
     test_string_append();
     test_list_to_string();
