@@ -1090,8 +1090,14 @@ void read_file(ekans_value* environment, ekans_value** pReturn) {
     exit(1);
   }
 
-  char* str = (char*)brutal_malloc(1024);
-  fgets(str, 1024, file);
+  fseek(file, 0, SEEK_END);
+  long size = ftell(file);
+  fseek(file, 0, SEEK_SET);
+
+  char* str = (char*)brutal_malloc(size + 1);
+  fread(str, 1, size, file);
+  str[size] = '\0';
+
   fclose(file);
   create_string_value(str, pReturn);
   brutal_free(str);
