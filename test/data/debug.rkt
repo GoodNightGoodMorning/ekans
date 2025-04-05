@@ -1209,7 +1209,7 @@
                  ("cadr" "cadr")
                  ("caddr" "caddr")
                  ("cddr" "cddr")
-                 ("cddadr" "char_to_int")
+                 ("cddadr" "cddadr")
                  ("cdadr" "char_to_int")
                  ("caadr" "char_to_int")
                  ("caar" "char_to_int")
