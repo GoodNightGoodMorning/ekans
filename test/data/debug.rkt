@@ -1207,7 +1207,7 @@
                  ("string-append" "string_append")
                  ("format" "format")
                  ("cadr" "cadr")
-                 ("caddr" "char_to_int")
+                 ("caddr" "caddr")
                  ("cddr" "char_to_int")
                  ("cddadr" "char_to_int")
                  ("cdadr" "char_to_int")

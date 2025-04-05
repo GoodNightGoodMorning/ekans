@@ -295,6 +295,7 @@ void test_format_string() {
   printf("[%s] passed\n", __FUNCTION__);
 }
 
+// cadr = car(cdr(list))
 void test_cadr() {
   initialize_ekans(0, NULL);
 
@@ -337,6 +338,46 @@ void test_cadr() {
   printf("[%s] passed\n", __FUNCTION__);
 }
 
+// caddr = car(cdr(cdr(list))) = cadr(cdr(list))
+void test_caddr() {
+  initialize_ekans(0, NULL);
+
+  ekans_value* environment = NULL;
+  ekans_value* result      = NULL;
+  ekans_value* list        = NULL;
+  ekans_value* nodes[10]   = {NULL};
+
+  push_stack_slot(&environment);
+  push_stack_slot(&result);
+  push_stack_slot(&list);
+  for (int i = 0; i < 10; i++) {
+    push_stack_slot(&nodes[i]);
+  }
+
+  // Create the list: '(1 2 3 4 5 6 7 8 9 10)
+  for (int i = 9; i >= 0; i--) {
+    create_number_value(i + 1, &nodes[i]);
+    if (i == 9) {
+      create_nil_value(&list);
+    }
+    create_cons_cell(nodes[i], list, &list);
+  }
+
+  create_environment(NULL, 1, &environment);
+  set_environment(environment, 0, list);
+
+  caddr(environment, &result);
+
+  // printf("%d\n", result->value.n);
+
+  assert(is(result, number));
+  assert(result->value.n == 3);
+
+  pop_stack_slot(13);
+  finalize_ekans();
+  printf("[%s] passed\n", __FUNCTION__);
+}
+
 int main() {
   printf("=====================\n");
   test_initialize_ekans();
@@ -351,6 +392,7 @@ int main() {
   {
     // Issue: change the order will cause stack-use-after-return
     test_cadr();
+    test_caddr();
     test_format_string();
     test_string_append();
     test_list_to_string();
