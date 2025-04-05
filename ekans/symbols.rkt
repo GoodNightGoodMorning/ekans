@@ -36,8 +36,8 @@
                  ; Begin TODO
                  ;
                  ("list->string" "list_to_string")
-                 ("string-append" "char_to_int")
-                 ("format" "char_to_int")
+                 ("string-append" "string_append")
+                 ("format" "format")
                  ("cadr" "char_to_int")
                  ("caddr" "char_to_int")
                  ("cddr" "char_to_int")

@@ -271,38 +271,6 @@ bool is(ekans_value* obj, ekans_type type) {
   return ((obj->type | EKANS_MARK_BITS) == (type | EKANS_MARK_BITS));
 }
 
-void format(ekans_value* environment, ekans_value** pReturn) {
-  buffer buff;
-  allocate_buffer(&buff);
-  {
-    // Example:
-    // fmt_str = "Hello ~a and ~a"
-    // environment->value.e.binding_count = 3
-    // environment->value.e.bindings[0]->value.s = "Hello ~a and ~a"
-    // environment->value.e.bindings[1]->value.s = "Alice"
-    // environment->value.e.bindings[2]->value.s = "Bob"
-    // Result: "Hello Alice and Bob"
-    const char* fmt_str = environment->value.e.bindings[0]->value.s;
-    int         arg_idx = 1; // start with the first argument after the format string
-
-    for (const char* c = fmt_str; c != NULL && *c != '\0'; ++c) {
-      if (*c == '~' && *(c + 1) == 'a') {
-        if (arg_idx >= environment->value.e.binding_count) {
-          fprintf(stderr, "[%s] arguments index error !!! \n", __PRETTY_FUNCTION__);
-          exit(1);
-        }
-        ekans_value* arg = environment->value.e.bindings[arg_idx++];
-        append_string(&buff, arg->value.s);
-        ++c; // skip 'a', e.g. fmt_str = "Hello ~a and ~a"
-      } else {
-        append_char(&buff, *c);
-      }
-    }
-    create_string_value(buff.begin, pReturn);
-  }
-  deallocate_buffer(&buff);
-}
-
 void ekans_value_to_string(ekans_value* v, buffer* b) {
   switch (v->type) {
     case number: {
@@ -817,6 +785,65 @@ void list_to_string(ekans_value* environment, ekans_value** pReturn) {
     append_string(&buff, " ");
   }
   create_string_value(buff.begin, pReturn);
+  deallocate_buffer(&buff);
+}
+
+void string_append(ekans_value* environment, ekans_value** pReturn) {
+  if (environment->value.e.binding_count != 2) {
+    fprintf(stderr, "[%s] error: requires exactly two arguments\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+
+  assert(environment->value.e.bindings[0] != NULL);
+  assert(environment->value.e.bindings[1] != NULL);
+
+  if (environment->value.e.bindings[0]->type != string) {
+    fprintf(stderr, "[%s] error: requires 1st argument to be a string\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+  if (environment->value.e.bindings[1]->type != string) {
+    fprintf(stderr, "[%s] error: requires 2nd argument to be a string\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+
+  char* str = brutal_malloc(strlen(environment->value.e.bindings[0]->value.s) +
+                            strlen(environment->value.e.bindings[1]->value.s) + 1);
+  strcpy(str, environment->value.e.bindings[0]->value.s);
+  strcat(str, environment->value.e.bindings[1]->value.s);
+
+  create_string_value(str, pReturn);
+  brutal_free(str);
+}
+
+void format(ekans_value* environment, ekans_value** pReturn) {
+  buffer buff;
+  allocate_buffer(&buff);
+  {
+    // Example:
+    // fmt_str = "Hello ~a and ~a"
+    // environment->value.e.binding_count = 3
+    // environment->value.e.bindings[0]->value.s = "Hello ~a and ~a"
+    // environment->value.e.bindings[1]->value.s = "Alice"
+    // environment->value.e.bindings[2]->value.s = "Bob"
+    // Result: "Hello Alice and Bob"
+    const char* fmt_str = environment->value.e.bindings[0]->value.s;
+    int         arg_idx = 1; // start with the first argument after the format string
+
+    for (const char* c = fmt_str; c != NULL && *c != '\0'; ++c) {
+      if (*c == '~' && *(c + 1) == 'a') {
+        if (arg_idx >= environment->value.e.binding_count) {
+          fprintf(stderr, "[%s] arguments index error !!! \n", __PRETTY_FUNCTION__);
+          exit(1);
+        }
+        ekans_value* arg = environment->value.e.bindings[arg_idx++];
+        append_string(&buff, arg->value.s);
+        ++c; // skip 'a', e.g. fmt_str = "Hello ~a and ~a"
+      } else {
+        append_char(&buff, *c);
+      }
+    }
+    create_string_value(buff.begin, pReturn);
+  }
   deallocate_buffer(&buff);
 }
 
