@@ -1036,6 +1036,38 @@ void cadddr(ekans_value* environment, ekans_value** pReturn) {
   car(car_env, pReturn);
 }
 
+void write_file(ekans_value* environment, ekans_value** pReturn) {
+  if (environment->value.e.binding_count != 2) {
+    fprintf(stderr, "[%s] error: requires exactly two arguments\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+
+  assert(environment->value.e.bindings[0] != NULL);
+  assert(environment->value.e.bindings[1] != NULL);
+
+  if (environment->value.e.bindings[0]->type != string) {
+    fprintf(stderr, "[%s] error: requires 1st argument to be a string\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+  if (environment->value.e.bindings[1]->type != string) {
+    fprintf(stderr, "[%s] error: requires 2nd argument to be a string\n", __PRETTY_FUNCTION__);
+    exit(1);
+  }
+
+  FILE* file = fopen(environment->value.e.bindings[0]->value.s, "w");
+  if (file == NULL) {
+    fprintf(stderr,
+            "[%s] error: failed to open file %s\n",
+            __PRETTY_FUNCTION__,
+            environment->value.e.bindings[0]->value.s);
+    exit(1);
+  }
+  fprintf(file, "%s", environment->value.e.bindings[1]->value.s);
+  fclose(file);
+
+  create_nil_value(pReturn);
+}
+
 // End TODO
 
 // Allocation helpers - just quit the process whenever an error happens

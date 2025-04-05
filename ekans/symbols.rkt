@@ -48,7 +48,7 @@
                  ("cdar" "cdar")
                  ("cdddr" "cdddr")
                  ("cadddr" "cadddr")
-                 ("write-file" "char_to_int")
+                 ("write-file" "write_file")
                  ("read-file" "char_to_int")
                  ;
                  ; End TODO
