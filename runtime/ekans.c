@@ -658,7 +658,7 @@ void equals(ekans_value* environment, ekans_value** pReturn) {
   } else if (is(v1, string)) {
     result = (strcmp(v1->value.s, v2->value.s) == 0);
   } else {
-    fprintf(stderr, "Error: unsupported type %u encountered in equals\n", v1->type);
+    fprintf(stderr, "Error: unsupported type encountered in equals\n");
     exit(1);
   }
   create_boolean_value(result, pReturn);
