@@ -1,9 +1,6 @@
 # Copyright (c) 2025 Good Night, Good Morning and contributors (see Contributors.md)
 # Licensed under the MIT License. See the LICENSE file in the project root for details.
 
-# ekans
-compiler.lkg.c
-
 # Default
 .DS_Store
 compiled/
@@ -13,8 +10,11 @@ compiled/
 \#*
 .\#*
 
-# Editor
+# IDE
 .idea/
+.vs/
+
+# Editor
 .vscode/*
 !.vscode/tasks.json
 
